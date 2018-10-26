@@ -6,6 +6,7 @@ class Auth extends CI_Controller {
         parent::__construct();
         $this->load->model('Model_user');
         $this->load->model('Model_guru');
+        $this->load->model('Model_siswa');
     }
 
     function index() {
@@ -20,10 +21,11 @@ class Auth extends CI_Controller {
             $password = $this->input->post('password');
             $loginUser = $this->Model_user->chekLogin($username, $password);
             $loginGuru = $this->Model_guru->chekLogin($username, $password);
+            $loginSiswa = $this->Model_siswa->chekLogin($username, $password);
             if (!empty($loginUser)) {
                 // sukses login user
                 $this->session->set_userdata($loginUser);
-                redirect('siswa');
+                redirect('home');
             } elseif (!empty($loginGuru)) {
                 // login guru
                 $session = array(
@@ -32,6 +34,14 @@ class Auth extends CI_Controller {
                     'id_guru'       =>  $loginGuru['id_guru']);
                 $this->session->set_userdata($session);
                 redirect('jadwal');
+            } elseif (!empty($loginSiswa)) {
+                // login guru
+                $session = array(
+                    'nama'  =>  $loginSiswa['nama'],
+                    'id_level_user' =>  6,
+                    'nim'       =>  $loginSiswa['nim']);
+                $this->session->set_userdata($session);
+                redirect('home');
             } else {
                 // gagal login
                 redirect('auth');

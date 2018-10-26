@@ -54,4 +54,12 @@ class Model_siswa extends CI_Model {
         $this->db->update($this->table,$data);
     }
 
+     function chekLogin($username,$password){
+        $this->db->where('nim',$username);
+        $this->db->where('password',  md5($password));
+        $user = $this->db->get('tbl_siswa')->row_array();
+        return $user;
+    }
+
+
 }

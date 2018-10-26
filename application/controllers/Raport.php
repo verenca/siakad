@@ -11,7 +11,7 @@ class Raport extends CI_Controller{
                             and j.id_rombel='".$walikelas['id_rombel']."'";
         $siswa          =   "SELECT s.nim,s.nama
                             FROM tbl_history_kelas as hk,tbl_siswa as s 
-                            WHERE hk.nim=s.nim and hk.id_rombel=".$walikelas['id_rombel']." 
+                            WHERE hk.nim=s.nim and hk.id_rombel='".$walikelas['id_rombel']."'
                             and hk.id_tahun_akademik=".  get_tahun_akademik_aktif('id_tahun_akademik');
         
         $data['rombel'] =   $this->db->query($rombel)->row_array();
@@ -130,5 +130,9 @@ class Raport extends CI_Controller{
         }else{
             return "Kurang";
         }
+    }
+
+    function pagesiswa(){
+        redirect(site_url().'/raport/nilai_semester/'.$this->session->userdata('nim'));
     }
 }
